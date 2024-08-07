@@ -1,0 +1,70 @@
+#ProgramType  ParallelDDS
+ProgramType DDS
+ObjectiveFunction GCOP
+ModelExecutable  ./run.py
+#PreserveBestModel .save_best.bat
+
+ModelSubdir processor_
+
+BeginExtraDirs
+model
+EndExtraDirs
+
+BeginFilePairs
+MESH_parameters_CLASS.tpl ; ./model/MESH_parameters_CLASS.ini
+EndFilePairs
+
+BeginParams
+#name     init.	  lower  	upper	 	transformations		format
+XSLP_1  	  random  0.0001   	0.005       	none   none   none	E8.1
+XSLP_2  	  random  0.0001   	0.005       	none   none   none	E8.1
+XSLP_3  	  random  0.0001   	0.005       	none   none   none	E8.1
+XSLP_4  	  random  0.0001   	0.005       	none   none   none	E8.1
+XSLP_5  	  random  0.0001   	0.005       	none   none   none	E8.1
+XSLP_6  	  random  0.0001   	0.005       	none   none   none	E8.1
+XDRAINH_1  	  random  0.1   	0.5       	none   none   none	E8.1
+XDRAINH_2  	  random  0.1   	0.5       	none   none   none	E8.1
+XDRAINH_3  	  random  0.1   	0.5       	none   none   none	E8.1
+XDRAINH_4  	  random  0.1   	0.5       	none   none   none	E8.1
+XDRAINH_5  	  random  0.1   	0.5       	none   none   none	E8.1
+XDRAINH_6  	  random  0.1   	0.5       	none   none   none	E8.1
+MANN_1  	  random  0.01   	0.1       	none   none   none	E8.1
+MANN_2  	  random  0.01   	0.1       	none   none   none	E8.1
+MANN_3  	  random  0.01   	0.1       	none   none   none	E8.1
+MANN_4  	  random  0.01   	0.1       	none   none   none	E8.1
+MANN_5  	  random  0.01   	0.1       	none   none   none	E8.1
+MANN_6  	  random  0.01   	0.1       	none   none   none	E8.1
+KSAT_1  	  random  0.01   	0.1       	none   none   none	E8.1
+KSAT_2  	  random  0.01   	0.1       	none   none   none	E8.1
+KSAT_3  	  random  0.01   	0.1       	none   none   none	E8.1
+KSAT_4  	  random  0.01   	0.1       	none   none   none	E8.1
+KSAT_5  	  random  0.01   	0.1       	none   none   none	E8.1
+KSAT_6  	  random  0.01   	0.1       	none   none   none	E8.1
+EndParams
+
+#BeginInitParams
+#4.0E-2
+#EndInitParams
+
+BeginResponseVars
+#name	filename			keyword		line		col	token
+NSE	./model/results/Metric.csv ;	OST_NULL	0		1	','
+EndResponseVars
+
+BeginGCOP
+CostFunction NSE
+PenaltyFunction APM
+EndGCOP
+
+BeginConstraints   
+EndConstraints
+
+RandomSeed 12345
+
+#BeginParallelDDSAlg
+BeginDDSAlg
+PerturbationValue 0.2
+MaxIterations 20
+UseRandomParamValues
+#EndParallelDDSAlg
+EndDDSAlg
