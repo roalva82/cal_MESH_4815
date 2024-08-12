@@ -34,8 +34,8 @@ start_date = '2015-03-01'
 end_date = '2015-03-31'
 
 # run mesh
-mesh_command  = './sa_mesh'
-subprocess.run([mesh_command])
+#mesh_command  = './sa_mesh'
+#subprocess.run([mesh_command])
 
 #add rank as a column to the stations mappings dataframe
 stations['rank'] = ""
@@ -45,6 +45,8 @@ for el in range(len(stations)):
 	sb = stations['COMID'][el]
 	stations.loc[el,'rank'] = drainage.sel(subbasin=sb)['Rank'].values
 
+#write the rank of the station subbasin back to stationsMapping.csv file
+
 #read simulated data
 sim = pd.read_csv('./results/ROF_D.csv', header=None)
 sim = sim.rename(columns={0: 'DATE'})
@@ -53,6 +55,7 @@ sim['DATE'] = pd.to_datetime(sim['DATE'])
 metric_total = 0
 valid_obs = 0
 
+print('stations',stations)
 #loop over gauging stations and obtain averaged metric
 for el in range(len(stations)):
 	#extract the simulated time series
@@ -75,6 +78,8 @@ for el in range(len(stations)):
 	#extract simulated and observed timeseries
 	sim_trim = merged_df.iloc[:,1].to_numpy()
 	obs_trim = merged_df.iloc[:,2].to_numpy()
+
+	print(sim_trim, obs_trim)
 
 	if sim_trim.size != 0 or obs_trim.size != 0:
 		metric, counter = nse(sim_trim,obs_trim)
